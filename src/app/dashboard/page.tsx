@@ -7,4 +7,5 @@ export default function page({ children }: { children: React.ReactNode }) {
         {children}
     </div>
   )
+
 }
