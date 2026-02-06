@@ -1,14 +1,11 @@
 import React from 'react';
+import Image from 'next/image';
+import homeSrc from '../../public/004210-16372537307822.jpeg';
+import Hero from './components/hero';
 
-<<<<<<< HEAD
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-        hello world
-    </div>
+    <Hero imgUrl={homeSrc} title="Professional Cloud Hosting" />
   );
-=======
-export default function Page() {
-  return <div>page</div>;
->>>>>>> ca85bb9 (feat: next)
-}
+} 
+  
