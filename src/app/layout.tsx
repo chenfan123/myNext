@@ -1,6 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
+import { Geist } from 'next/font/google'
+
 
 export default function RootLayout({
   children,
