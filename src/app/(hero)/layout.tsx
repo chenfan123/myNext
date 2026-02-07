@@ -1,6 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
+
+import Header from "../components/Header";
 
 export default function RootLayout({
   children,
@@ -8,10 +10,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <>
+        <Header/>
         {children}
-      </body>
-    </html>
+    </>
   );
 }
