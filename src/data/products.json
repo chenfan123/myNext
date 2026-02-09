@@ -1,0 +1,68 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Earthen Bottle",
+      "price": 48,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-01.jpg",
+      "description": "Tall slender porcelain bottle with natural clay textured body and cork stopper.",
+      "category": "Bottles"
+    },
+    {
+      "id": "2",
+      "name": "Nomad Tumbler",
+      "price": 35,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-02.jpg",
+      "description": "Olive drab green insulated bottle with flared screw lid and flat top.",
+      "category": "Bottles"
+    },
+    {
+      "id": "3",
+      "name": "Focus Paper Refill",
+      "price": 89,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-03.jpg",
+      "description": "Person using a pen to cross a task off a productivity paper card.",
+      "category": "Office Supplies"
+    },
+    {
+      "id": "4",
+      "name": "Machined Mechanical Pencil",
+      "price": 35,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-04.jpg",
+      "description": "Hand holding black machined steel mechanical pencil with brass tip and top.",
+      "category": "Writing Instruments"
+    },
+    {
+      "id": "5",
+      "name": "Focus Card Tray",
+      "price": 64,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-05.jpg",
+      "description": "Paper card sitting upright in walnut card holder on desk.",
+      "category": "Office Supplies"
+    },
+    {
+      "id": "6",
+      "name": "Focus Multi-Pack",
+      "price": 39,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-06.jpg",
+      "description": "Stack of 3 small drab green cardboard paper card refill boxes with white text.",
+      "category": "Office Supplies"
+    },
+    {
+      "id": "7",
+      "name": "Brass Scissors",
+      "price": 50,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-07.jpg",
+      "description": "Brass scissors with geometric design, black steel finger holes, and included upright brass stand.",
+      "category": "Office Supplies"
+    },
+    {
+      "id": "8",
+      "name": "Focus Carry Pouch",
+      "price": 32,
+      "image": "https://tailwindcss.com/plus-assets/img/ecommerce-images/category-page-04-image-card-08.jpg",
+      "description": "Textured gray felt pouch for paper cards with snap button flap and elastic pen holder loop.",
+      "category": "Accessories"
+    }
+  ]
+}
