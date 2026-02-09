@@ -2,3 +2,6 @@
 1. 发生路由跳转的时候template不会保留状态，layout会保留状态 
 2. 发生页面跳转的时候template会为子项创建新实例，重新创建dom元素，在客户端组建中不保留状态，并且重新同步效果
 
+Parallel Routes:平行路由，就是@xxx命名文件夹
+
+Intercepting Routes:拦截路由
