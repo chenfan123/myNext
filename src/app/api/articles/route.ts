@@ -3,12 +3,28 @@ import db from '@/db';
 // GET => /api/articles
 
 export async function GET(request: Request) {
-    // ...
+    const { searchParams } = new URL(request.url)
+    const page = searchParams.get('page')
+    const limit = searchParams.get('limit')
+    await db.read()
+    const data = db.data
+    console.log(data,'data')
+    const posts = data.posts
+    const total = posts.length
+    const p = parseInt(page || '1')
+    const l = parseInt(limit || '10')
+    const start = (p - 1) * l
+    const end = start + l
+    const result = posts.slice(start, end)
     return NextResponse.json({
         code: 0,
         message: 'success',
-        data: []
+        data: result,
+        total: total,
+        page: p,
+        limit: l
     })
+    // ...
 }
 
 // POST => /api/articles

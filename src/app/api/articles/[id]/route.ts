@@ -22,5 +22,17 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
+    const r = await request.json()
+    await db.update(({posts})=>{
+        const idx = posts.findIndex(post=>post.id === id)
+        if(idx !== -1){
+            posts[idx] = {...posts[idx], ...r}
+        }
+    }) 
+    return NextResponse.json({
+        code: 0,
+        message: 'success',
+        data: {id, ...r}
+    })
     // ...
 }
