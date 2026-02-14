@@ -3,6 +3,7 @@
 import React from 'react';
 import type { FormProps } from 'antd';
 import { Button, Checkbox, Form, Input } from 'antd';
+import { useRouter } from 'next/navigation';
 
 type FieldType = {
   username?: string;
@@ -10,15 +11,30 @@ type FieldType = {
   remember?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
 
-const Page: React.FC = () => (
+const Page: React.FC = () =>{ 
+    const router = useRouter();
+    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+        console.log('Success:', values);
+        fetch('/api/login', {
+          method: 'POST',
+          body: JSON.stringify(values),
+          headers:{
+              'Content-Type': 'application/json',
+          }
+        }).then(res => res.json()).then(data => {
+          console.log(data,'data')
+          router.push('/dashboard');
+        }).catch(err => {
+          console.log(err,'err')
+        })
+      };
+      
+      const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+      };    
+return (
   <Form
     name="basic"
     labelCol={{ span: 8 }}
@@ -55,6 +71,6 @@ const Page: React.FC = () => (
       </Button>
     </Form.Item>
   </Form>
-);
+)};
 
 export default Page;
