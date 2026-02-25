@@ -114,3 +114,116 @@ Nextjs的默认行为是将路由的渲染结果缓存在服务器上，适用�
 ##### Router Cache 客户端陆游缓存
 客户端缓存，用于在用户会话期间存储React Server组件有效负载，按各个路由段拆分。
 当用户在路由之间导航时，Next会缓存访问过的路由段，并预取用户可能导航到的路由，基于<Link>其视区中的组件。
+
+
+### 缓存案例
+```js
+import React from 'react'
+import Image from 'next/image'
+import a from '@/public/004210-16372537307822.jpeg'
+import b from '@/public/223131-163931949195b3.jpeg'
+import c from '@/public/223232-163646835246df.jpeg'
+
+const fetchImage = async () => {
+    const response = await setTimeout(() => {
+        return {
+            url: [a,b,c]
+        }
+    }, 1000)
+    return response
+}
+export default async function page() {
+    const image1 = await fetchImage()
+    const image2 = await fetchImage()
+    const image3 = await fetchImage()
+  return (
+    <div>       
+        <Image src={image1.url[0]} alt="image1" width={100} height={100} />
+        <Image src={image2.url[1]} alt="image2" width={100} height={100} />
+        <Image src={image3.url[2]} alt="image3" width={100} height={100} />
+    </div>
+  )
+}
+
+/**
+ * 1. 打包构建的时候
+ *  会请求/a获取这个页面，然后会执行代码发起fetch请求。
+ *  如果没有请求记忆（Request memoization），就会看一下数据缓存（Data Cache），这时候数据缓存也没有数据，就会真正发起请求拿到数据。然后会依次set数据缓存和请求记忆。
+ * 然后走上述代码的第二次fetch请求，这时候因为有了请求记忆，就不会真正发起请求，而是直接返回请求记忆中的数据。（第三次同第二次） 
+ * 然后会生成（Render To Payload）RSC即服务端组件。如果存在客户端组件，则会结合客户端组件生成对应的HTML。不管是RSC还是生成的html都会在服务端进行缓存。即全路由缓存（Full Route Cache）。
+ * 
+ * 
+ * 再访问/a页面的时候，首先会查看客户端路由缓存，这时候没有名字，就会往下到完整陆游缓存。这时候有缓存，然后返回缓存内容，再set一下客户端路由缓存。最后渲染。(这种只适合静态渲染)
+ * 
+ * 客户端陆游缓存只会存在陆游导航期间，如果刷新就会失效。
+ */
+```
+
+
+##### 退出请求记忆
+```js
+const {singnal} = new AbortController()
+fetch(url,{signal})
+```
+
+##### 关于客户端的路由缓存
+访问某个页面时，客户端缓存没有命中，这时候会查看是否命中全路由缓存，如果命中了，返回缓存内容（layout和page），并且会设置客户端缓存，即对应的RSC Payload
+
+如果页面中有路由到其他页面，这个页面和刚刚页面共享同一个layout,那么就会部分命中，即命中layout。然后去拿到相关信息，同上述。
+
+再次通过路由导航，则客户端缓存命中，直接返回缓存内容。
+
+同时还会对路由进行预加载，即预加载下一个路由的RSC Payload。
+
+静态渲染5分钟失效，动态渲染30s失效。
+
+如果使用a标签跳转，会清除客户端缓存，重新请求。
+
+###### 有2种方法可以使Router Cache失效
+1. Server Action
+   1.1 使用revalidatePath函数，可以清除指定路径的客户端缓存
+   1.2 使用revalidateTag函数，可以清除指定标签的客户端缓存。
+   1.3 使用cookies.set函数，可以清除指定路径的客户端缓存。
+   1.4 使用cookies.delete函数，可以清除指定路径的客户端缓存。
+2. router.refresh()函数，可以清除当前路由的客户端缓存。
+
+## Server Action
+Server Action是Next.js的另一个重要特性，用于在服务器端执行操作，例如数据库查询、文件上传、数据验证等。本质上就是一个函数
+
+可以使用“use server”包裹函数，使函数在服务器端执行。
+
+```js
+"use server"
+export async function action() {
+    return {
+        message: "Hello, world!"
+    }
+}
+```
+##### 注意点
+1. 标签中使用action属性/serverAction，可以调用Server Action函数。
+2. 如果需要额外传入值，比如id，需要这样写
+```js
+<form action={async (formData: FormData)=>{
+    'use server'
+    await addTodo(userId,formData)
+}}>
+```
+或者使用bind。
+
+##### server Actions 处理表单时常见的api
+1. useFormStatus，可以获取表单的提交状态。是一个React钩子，必须在客户端组件中使用。`import { useFormStatus } from 'react-dom'; const { pending } = useFormStatus()`
+2. useFormState，需要传入serverAction函数，以及初始值。返回的是一个数组。
+
+## 案例
+SQLite数据库。
+Prisma工具，用于管理数据库。
+
+1. npm i prisma
+2. npx prisma init --datasource-provider sqlite ( 初始化并指定数据库类型为sqlite )
+3. 编写模型 Schema, 就是一个描述文件，描述了数据库的表结构。
+4. 根据模型生成数据库表
+5. 根据模型生成Prisma Client, 用于操作数据库。
+   
+   
+   
